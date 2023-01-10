@@ -10,11 +10,11 @@ def init_api_client():
 
 def deploy_project(ws_api):
     ws_api.import_workspace_dir(
-    source_path='pipelines/',
-    target_path='/tmp/pipelines',
-    overwrite=True,
-    exclude_hidden_files=False
-)
+        source_path='pipelines/',
+        target_path='/tmp/pipelines',
+        overwrite=True,
+        exclude_hidden_files=False
+    )
     
 def main():
     ws_api = init_api_client()
