@@ -26,5 +26,5 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirement.txt
       - name: Deploy pipeline folder
-        run python deployment_scripts/deploy_pipelines.py
+        run: python deployment_scripts/deploy_pipelines.py
         
