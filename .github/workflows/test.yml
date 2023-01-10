@@ -13,8 +13,8 @@ jobs:
         run: python model.py
   deploy:
     env:
-      - DATABRICKS_HOST: ${{ secret.DATABRICKS_HOST }}
-      - DATABRICKS_TOKEN: ${{ secret.DATABRICKS_TOKEN }}
+      - DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      - DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
     runs-on: ubuntu-latest
     steps:
       - name: Setup Python
