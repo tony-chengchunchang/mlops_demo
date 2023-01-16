@@ -1,4 +1,3 @@
-# Databricks notebook source
 import sys
 sys.path.append('../')
 import os
@@ -8,12 +7,10 @@ from databricks_cli.runs.api import RunsApi
 from databricks_cli.jobs.api import JobsApi
 import common
 
-# COMMAND ----------
-
-token = 'dapi556f78773d703620eea9f03673f31abe'
-host = 'https://adb-2594463552369592.12.azuredatabricks.net'
-
-# COMMAND ----------
+parser = argparse.ArgumentParser()
+parser.add_argument('--stage', required=True)
+args = parser.parse_args()
+env = common.get_env(args.stage)
 
 class JobHandler:
     def __init__(self, stage, host, token):
@@ -66,19 +63,10 @@ class JobHandler:
                 self.update_job(job[0]['job_id'])
             else:
                 self.create_job()
-
-# COMMAND ----------
-
-handler = JobHandler('staging', host, token)
-
-# COMMAND ----------
-
-handler.execute()
-
-# COMMAND ----------
-
-handler.__dict__
-
-# COMMAND ----------
-
-
+    
+def main():
+    handler = JobHandler(args.stage, os.getenv('DATABRICKS_HOST'), os.getenv('DATABRICKS_TOKEN'))
+    handler.execute()
+    
+if __name__ == '__main__':
+    main()
