@@ -1,6 +1,7 @@
 import sys
 import os
 sys.path.insert(0, os.path.abspath('..'))
+print(os.path.abspath('..'))
 
 import argparse
 from databricks_cli.sdk.api_client import ApiClient

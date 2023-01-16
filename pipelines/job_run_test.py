@@ -73,11 +73,11 @@ handler = JobHandler('staging', host, token)
 
 # COMMAND ----------
 
-handler.execute()
+os.path.abspath('../')
 
 # COMMAND ----------
 
-handler.__dict__
+
 
 # COMMAND ----------
 
