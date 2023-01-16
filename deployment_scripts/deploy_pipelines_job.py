@@ -1,6 +1,7 @@
 import sys
-sys.path.append('../')
 import os
+sys.path.append(os.path.abspath('..'))
+
 import argparse
 from databricks_cli.sdk.api_client import ApiClient
 from databricks_cli.workspace.api import WorkspaceApi
