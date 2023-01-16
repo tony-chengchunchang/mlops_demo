@@ -6,7 +6,7 @@ ENV_CONF = {
     },
     "staging": {
         "model_name": "housing",
-        "deploy_pipelines_job_source_path": "pipelines/",
+        "deploy_pipelines_job_source_path": "../pipelines/",
         "deploy_pipelines_job_target_path": "/staging/pipelines/",
         "train_model_job_name": "train_model",
         "train_model_job_spark_version": "11.3.x-cpu-ml-scala2.12",
@@ -16,7 +16,7 @@ ENV_CONF = {
     },
     "prod": {
         "model_name": "housing",
-        "deploy_pipelines_job_source_path": "pipelines/",
+        "deploy_pipelines_job_source_path": "../pipelines/",
         "deploy_pipelines_job_target_path": "/prod/pipelines/",
         "train_model_job_name": "train_model",
         "train_model_job_spark_version": "11.3.x-cpu-ml-scala2.12",
