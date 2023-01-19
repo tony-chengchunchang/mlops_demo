@@ -16,8 +16,4 @@ test.write.saveAsTable(VALIDATION_DATA_TABLE, mode='overwrite', overwriteSchema=
 
 # COMMAND ----------
 
-DATA_TABLE
-
-# COMMAND ----------
-
 

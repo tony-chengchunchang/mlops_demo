@@ -39,6 +39,8 @@ def create_training_pipeline(**params):
     return pipeline
 
 def run_training():
+    pwd = dbutils.notebook.entry_point.getDbutils().notebook().getContext().notebookPath().get()
+    mlflow.set_experiment(pwd)
     with mlflow.start_run() as run:
         mlflow.autolog()
         data = get_dataset()
