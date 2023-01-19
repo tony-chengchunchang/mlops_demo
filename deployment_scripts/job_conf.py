@@ -6,7 +6,7 @@ from databricks_cli.jobs.api import JobsApi
 
 ENV_CONF = {
     "staging": {
-        "deploy_pipelines_job_source_path": "../pipelines/",
+        "deploy_pipelines_job_source_path": "pipelines/",
         "deploy_pipelines_job_target_path": "/staging/pipelines/",
         "get_features_job_name": "get_features",
         "get_feature_job_notebook_path": "/staging/pipelines/get_features",
@@ -25,7 +25,7 @@ ENV_CONF = {
         "job_num_workers": 2,
     },
     "prod": {
-        "deploy_pipelines_job_source_path": "../pipelines/",
+        "deploy_pipelines_job_source_path": "pipelines/",
         "deploy_pipelines_job_target_path": "/prod/pipelines/",
         "get_features_job_name": "get_features",
         "get_feature_job_notebook_path": "/prod/pipelines/get_features",
