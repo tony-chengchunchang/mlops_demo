@@ -1,15 +1,19 @@
 name: Test CI
+
 on: 
   pull_request:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
-  deploy:
+  ci:
     env:
       DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
       DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      
     runs-on: ubuntu-latest
+    
     steps:
       - name: Setup Python
         uses: actions/setup-python@v3
@@ -23,4 +27,11 @@ jobs:
         run: |
           cd deployment_scripts
           python deploy_pipelines_job.py --stage staging
+      - name: Run training_pipeline
+        run: python training_pipeline_job.py --stage staging
+      - name: Run inference
+        run: python inference_job.py --stage staging
+      - name: Run monitoring
+        run: python monitoring_job.py --stage staging
+
         

@@ -1,25 +1,23 @@
 # Databricks notebook source
-dbutils.widgets.combobox('stage', 'dev', ['dev', 'staging', 'prod'])
+dbutils.widgets.dropdown('stage', 'staging', ['staging', 'prod'])
 stage = dbutils.widgets.get('stage')
 
 # COMMAND ----------
 
-import common
+import pipelines_conf as conf
+import json
 import mlflow
-from mlflow.tracking import MlflowClient
 from sklearn.model_selection import train_test_split
 from sklearn.compose import ColumnTransformer, make_column_selector
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
-from hyperopt import fmin, tpe, hp, SparkTrials, STATUS_OK
-from hyperopt.pyll import scope
 
 # COMMAND ----------
 
 def get_dataset():
-    return spark.read.table('housing_data').toPandas()
+    return spark.read.table(conf.DATA_TABLE).toPandas().drop('index', axis=1)
 
 def create_train_test_split(data):
     X = data.iloc[:, :-1]
@@ -68,9 +66,11 @@ def register_model(model_name, run):
     return model_ver
 
 def main():
-    env = common.get_env(stage)
+    env = conf.get_env(stage)
     run = run_training()
     register_model(env['model_name'], run)
+
+# COMMAND ----------
 
 if __name__ == '__main__':
     main()
