@@ -7,7 +7,10 @@ series = dbutils.widgets.get('series')
 
 # COMMAND ----------
 
-import pipelines_conf as conf
+# MAGIC %run "./pipelines_conf"
+
+# COMMAND ----------
+
 import mlflow
 import pandas as pd
 
@@ -17,18 +20,18 @@ class InferenceModel:
     def __init__(self, stage, series):
         self.stage = stage
         self.series = series
-        self.env = conf.get_env(self.stage)
+        self.env = get_env(self.stage)
         self.model_name = self.env['model_name']
         self.output_table = self.env['inference_job_output_table']
         self.output_mode = self.env['inference_job_output_mode']
-        self.pred_col = conf.PRED_COL
+        self.pred_col = PRED_COL
         self.data = None
         self.model = None
         self.setup()
     
     def setup(self):
         if self.stage == 'staging':
-            self.data = spark.read.table(conf.VALIDATION_DATA_TABLE).toPandas().iloc[:, :-1]
+            self.data = spark.read.table(VALIDATION_DATA_TABLE).toPandas().iloc[:, :-1]
             self.model = mlflow.pyfunc.load_model(f'models:/{self.model_name}/Staging')
         elif self.stage == 'prod':
             self.data = spark.read.table(f'housing_data_{self.series}').toPandas().iloc[:, :-1]

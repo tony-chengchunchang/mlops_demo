@@ -4,15 +4,19 @@ series = dbutils.widgets.get('series')
 
 # COMMAND ----------
 
-import pipelines_conf as conf
+# MAGIC %run "./pipelines_conf"
 
 # COMMAND ----------
 
 df = spark.read.table(f'housing_data_{series}')
 train, test = df.randomSplit([0.8, 0.2], seed=24)
 
-train.write.saveAsTable(conf.DATA_TABLE, mode='overwrite', overwriteSchema=True)
-test.write.saveAsTable(conf.VALIDATION_DATA_TABLE, mode='overwrite', overwriteSchema=True)
+train.write.saveAsTable(DATA_TABLE, mode='overwrite', overwriteSchema=True)
+test.write.saveAsTable(VALIDATION_DATA_TABLE, mode='overwrite', overwriteSchema=True)
+
+# COMMAND ----------
+
+DATA_TABLE
 
 # COMMAND ----------
 

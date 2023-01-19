@@ -4,7 +4,10 @@ stage = dbutils.widgets.get('stage')
 
 # COMMAND ----------
 
-import pipelines_conf as conf
+# MAGIC %run "./pipelines_conf"
+
+# COMMAND ----------
+
 import mlflow
 from mlflow.tracking import MlflowClient
 from sklearn.metrics import r2_score
@@ -14,13 +17,13 @@ from sklearn.metrics import r2_score
 class RegisteredModel:
     def __init__(self, stage):
         self.stage = stage
-        self.env = conf.get_env(self.stage)
+        self.env = get_env(self.stage)
         self.model_name = self.env['model_name']
         self.client = MlflowClient()
     
     @staticmethod
     def get_test_data():
-        data = spark.read.table(conf.VALIDATION_DATA_TABLE).toPandas().drop('index', axis=1)
+        data = spark.read.table(VALIDATION_DATA_TABLE).toPandas().drop('index', axis=1)
         X = data.iloc[:, :-1]
         y = data.iloc[:, -1]
         return X, y

@@ -7,14 +7,13 @@ series = dbutils.widgets.get('series')
 
 # COMMAND ----------
 
-import pipelines_conf as conf
-import datetime
-from sklearn.metrics import r2_score
-import pyspark.sql.functions as F
+# MAGIC %run "./pipelines_conf"
 
 # COMMAND ----------
 
-conf.VALIDATION_DATA_TABLE
+import datetime
+from sklearn.metrics import r2_score
+import pyspark.sql.functions as F
 
 # COMMAND ----------
 
@@ -22,17 +21,17 @@ class MonitorModel:
     def __init__(self, stage, series):
         self.stage = stage
         self.series = series
-        self.env = conf.get_env(self.stage)
+        self.env = get_env(self.stage)
         self.source_table = self.env['inference_job_output_table']
         self.output_table = self.env['monitoring_job_output_table']
         self.output_mode = self.env['monitoring_job_output_mode']
-        self.target_col = conf.TARGET_COL
-        self.pred_col = conf.PRED_COL
+        self.target_col = TARGET_COL
+        self.pred_col = PRED_COL
     
     def cal_r2(self):
         if self.stage == 'staging':
             pred = spark.read.table(self.source_table).toPandas()
-            y_true = spark.read.table(conf.VALIDATION_DATA_TABLE).select('index', self.target_col).toPandas()
+            y_true = spark.read.table(VALIDATION_DATA_TABLE).select('index', self.target_col).toPandas()
         elif self.stage == 'prod':
             pred = spark.read.table(self.source_table)\
                 .filter(F.col('series')==self.series)\
