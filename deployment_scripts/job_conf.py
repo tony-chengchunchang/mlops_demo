@@ -19,7 +19,6 @@ ENV_CONF = {
         "monitoring_job_name": "monitoring",
         "monitoring_job_notebook_path": "/staging/pipelines/monitoring",
         "check_state_freq": 20,
-        "timeout": 600,
         "job_spark_version": "11.3.x-cpu-ml-scala2.12",
         "job_node_type_id": "Standard_D3_v2",
         "job_num_workers": 2,
@@ -64,15 +63,13 @@ class JobHandler(ABC):
     def run(self):
         res = self.runs_api.submit_run(self.job_dict)
         run_id = res['run_id']
-        n = 0
-        while n <= self.env['timeout']:
+        while True:
             run = self.runs_api.get_run(run_id)
             print(run['state'])
             if run['state']['life_cycle_state'] in ['INTERNAL_ERROR', 'SKIPPED', 'TERMINATED']:
                 break
             else:
                 time.sleep(self.env['check_state_freq'])
-                n += self.env['check_state_freq']
                 
         if run['state']['result_state'] != 'SUCCESS':
             raise Exception('job failed')
