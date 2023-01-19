@@ -21,7 +21,7 @@ ENV_CONF = {
         "check_state_freq": 20,
         "job_spark_version": "11.3.x-cpu-ml-scala2.12",
         "job_node_type_id": "Standard_D3_v2",
-        "job_num_workers": 2,
+        "job_num_workers": 0,
     },
     "prod": {
         "deploy_pipelines_job_source_path": "pipelines/",
@@ -38,7 +38,7 @@ ENV_CONF = {
         "monitoring_job_notebook_path": "/prod/pipelines/monitoring",
         "job_spark_version": "11.3.x-cpu-ml-scala2.12",
         "job_node_type_id": "Standard_D3_v2",
-        "job_num_workers": 2,
+        "job_num_workers": 0,
     }
 }
 
