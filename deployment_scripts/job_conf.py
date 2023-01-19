@@ -180,6 +180,7 @@ class InferenceJob(JobHandler):
                 }
             }
         }
+        return job_dict
 
 class MonitoringJob(JobHandler):
     def __init__(self, stage, host, token):
@@ -204,4 +205,5 @@ class MonitoringJob(JobHandler):
                 }
             }
         }
+        return job_dict
     
