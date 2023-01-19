@@ -1,17 +1,13 @@
-import sys
 import os
-sys.path.insert(0, os.path.abspath('..'))
-print(os.path.abspath('..'))
-
 import argparse
 from databricks_cli.sdk.api_client import ApiClient
 from databricks_cli.workspace.api import WorkspaceApi
-import common
+import job_conf
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--stage', required=True)
 args = parser.parse_args()
-env = common.get_env(args.stage)
+env = job_conf.get_env(args.stage)
 
 def init_api_client():
     client = ApiClient(host=os.getenv('DATABRICKS_HOST'), token=os.getenv('DATABRICKS_TOKEN'))
