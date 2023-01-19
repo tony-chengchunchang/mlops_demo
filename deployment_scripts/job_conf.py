@@ -66,7 +66,7 @@ class JobHandler(ABC):
         run_id = res['run_id']
         n = 0
         while n <= self.env['timeout']:
-            run = runs_api.get_run(run_id)
+            run = self.runs_api.get_run(run_id)
             print(run['state'])
             if run['state']['life_cycle_state'] in ['INTERNAL_ERROR', 'SKIPPED', 'TERMINATED']:
                 break
