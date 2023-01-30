@@ -36,6 +36,7 @@ ENV_CONF = {
         "inference_job_notebook_path": "/prod/pipelines/inference",
         "monitoring_job_name": "monitoring",
         "monitoring_job_notebook_path": "/prod/pipelines/monitoring",
+        "check_state_freq": 20,
         "job_spark_version": "11.3.x-cpu-ml-scala2.12",
         "job_node_type_id": "Standard_D3_v2",
         "job_num_workers": 1,
@@ -153,7 +154,11 @@ class TrainingPipeline(JobHandler):
                         }
                     }
                 }
-            ]
+            ],
+            'schedule': {
+                'quartz_cron_expression': '0 10 8 * * ?',
+                'timezone_id': 'Asia/Taipei'
+            }
         }
         return job_dict
 
