@@ -24,4 +24,4 @@ jobs:
       - name: Deploy pipeline folder
         run: python deployment_scripts/deploy_pipelines_job.py --stage prod
       - name: Deploy Retrain Schedule
-        run python deployment_scripts/training_pipeline_job.py --stage prod
+        run: python deployment_scripts/training_pipeline_job.py --stage prod
