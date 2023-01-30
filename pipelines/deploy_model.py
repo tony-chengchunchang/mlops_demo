@@ -17,8 +17,7 @@ from sklearn.metrics import r2_score
 class RegisteredModel:
     def __init__(self, stage):
         self.stage = stage
-        self.env = get_env(self.stage)
-        self.model_name = self.env['model_name']
+        self.model_name = MODEL_NAME
         self.client = MlflowClient()
     
     @staticmethod
@@ -45,17 +44,11 @@ class RegisteredModel:
         return r2
     
     def transit_model_stage(self, version, promote):
-        if self.stage == 'staging':
-            if promote:
-                self.client.transition_model_version_stage(self.model_name, version, 'Staging', archive_existing_versions=True)
-            else:
-                self.client.transition_model_version_stage(self.model_name, version, 'Archived')
-                raise Exception('New model does not outperform Prod model')
-        elif self.stage == 'prod':
-            if promote:
-                self.client.transition_model_version_stage(self.model_name, version, 'Production', archive_existing_versions=True)
-            else:
-                self.client.transition_model_version_stage(self.model_name, version, 'Archived')
+        if promote:
+            self.client.transition_model_version_stage(self.model_name, version, 'Production', archive_existing_versions=True)
+        else:
+            self.client.transition_model_version_stage(self.model_name, version, 'Archived')
+            if self.stage == 'staging':
                 raise Exception('New model does not outperform Prod model')
         
     def compare(self):

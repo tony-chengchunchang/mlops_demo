@@ -129,10 +129,7 @@ class TrainingPipeline(JobHandler):
                         "num_workers": self.env['job_num_workers']
                       },
                     'notebook_task': {
-                        'notebook_path': self.env['train_model_job_notebook_path'],
-                        'base_parameters': {
-                            'stage': self.stage
-                        }
+                        'notebook_path': self.env['train_model_job_notebook_path']
                     }
                 },
                 {
