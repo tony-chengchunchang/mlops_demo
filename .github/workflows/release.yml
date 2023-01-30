@@ -1,0 +1,27 @@
+name: Test Release
+
+on:
+  release:
+    types: published
+    
+jobs:
+  cd:
+    env:
+      DATABRICKS_HOST: ${{ secrets.DATABRICKS_HOST }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN }}
+      
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.9.15
+      - name: Get code
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+      - name: Deploy pipeline folder
+        run: python deployment_scripts/deploy_pipelines_job.py --stage prod
+      - name: Deploy Retrain Schedule
+        run python deployment_scripts/training_pipeline_job.py --stage prod
