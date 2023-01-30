@@ -1,9 +1,4 @@
 # Databricks notebook source
-dbutils.widgets.dropdown('stage', 'staging', ['staging', 'prod'])
-stage = dbutils.widgets.get('stage')
-
-# COMMAND ----------
-
 # MAGIC %run "./pipelines_conf"
 
 # COMMAND ----------
@@ -63,9 +58,8 @@ def register_model(model_name, run):
     return model_ver
 
 def main():
-    env = get_env(stage)
     run = run_training()
-    register_model(env['model_name'], run)
+    register_model(MODEL_NAME, run)
 
 # COMMAND ----------
 
