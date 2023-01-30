@@ -29,7 +29,7 @@ class RegisteredModel:
         return X, y
 
     def get_new_model(self):
-        model_ver = self.client.get_latest_versions(self.model_name)[0]
+        model_ver = self.client.get_latest_versions(self.model_name, stages=['None'])[0]
         model = mlflow.pyfunc.load_model(f'models:/{self.model_name}/{model_ver.version}')
         return model, model_ver
 
@@ -88,6 +88,10 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+# COMMAND ----------
+
+
 
 # COMMAND ----------
 
