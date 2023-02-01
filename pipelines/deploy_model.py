@@ -48,9 +48,7 @@ class RegisteredModel:
             self.client.transition_model_version_stage(self.model_name, version, 'Production', archive_existing_versions=True)
         else:
             self.client.transition_model_version_stage(self.model_name, version, 'Archived')
-            if self.stage == 'staging':
-                raise Exception('New model does not outperform Prod model')
-        
+            
     def compare(self):
         X, y = self.get_test_data()
         new_model, new_model_ver = self.get_new_model()
@@ -60,12 +58,16 @@ class RegisteredModel:
             new_r2 = self.evaluate(new_model, X, y)
             try:
                 prod_r2 = self.evaluate(prod_model, X, y)
-                if new_r2 > prod_r2:
-                    self.transit_model_stage(new_model_ver.version, promote=True)
-                else:
-                    self.transit_model_stage(new_model_ver.version, promote=False)
             except:
                 self.transit_model_stage(new_model_ver.version, promote=True)
+                return
+                
+            if new_r2 > prod_r2:
+                self.transit_model_stage(new_model_ver.version, promote=True)
+            else:
+                self.transit_model_stage(new_model_ver.version, promote=False)
+                if self.stage == 'staging':
+                    raise Exception('New model does not outperform Prod model')
         else:
             self.transit_model_stage(new_model_ver.version, promote=True)
         
